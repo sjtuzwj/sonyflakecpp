@@ -2,7 +2,7 @@
 
 ## Quick Start
 The project is from a brpc project, so please replace brpc's lock with mutex manually.  
-[Sonyflake](https://github.com/sony/sonyflake) is a variant of snowflake, it use 10ms as interval to increase lifetime, and set seq to 8 bit. Which means it can generate less IDs per second.   
+[Sonyflake](https://github.com/sony/sonyflake) is a variant of snowflake, it use 10ms as interval to increase lifetime, and set seq to 8 bits. Which means it can generate fewer IDs per second.   
 Sonyflake use lower 2 bytes of private IP to generate ID.   
 +--------------------------------------------------------------------------+   
 | 1 Bit Unused | 39 Bit Timestamp |  16 Bit NodeID  |   8 Bit Sequence ID |   
