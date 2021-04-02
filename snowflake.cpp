@@ -7,7 +7,7 @@
  * This is broken into a separate class in case
  * we ever want to support multiple worker threads
  * per process
- * 40 bits for time in units of 10 msec
+ * 39 bits for time in units of 10 msec
  * 8 bits for a sequence number
  * 16 bits for a machine id (private ip 2 byte)
  */
@@ -30,12 +30,16 @@
         unsigned long long fb = std::stoull(ip.substr(secondDot +1 ,thirdDot));
         unsigned long long sb = std::stoull(ip.substr(thirdDot+1));
         machineId = fb << 8 | sb;
+        //Use wall clock as init time and mono clock to measure interval
+        std::chrono::system_clock::duration tp = std::chrono::system_clock::now().time_since_epoch();
+        startTimestamp =  std::chrono::duration_cast<std::chrono::milliseconds>(tp).count() - twepoch;
+        lastTime = std::chrono::steady_clock::now();
+        lastTimestamp = timeGen();
     }
     //need concurrency control
     unsigned long long SnowFlake::nextId() 
     {
         //butil::AutoLock al(lock);
-        //TODO: REPLACE WITH MUTEX
         unsigned long long timestamp = timeGen();
         //clock backward, wait until recover
         if (timestamp < lastTimestamp) 
@@ -56,7 +60,7 @@
 
         lastTimestamp = timestamp;
         return
-        ((timestamp - twepoch) << timestampLeftShift) |
+        (timestamp << timestampLeftShift) |
         (machineId << machineIdShift) |
         sequence;
     }
@@ -73,7 +77,7 @@
 
     unsigned long long SnowFlake::timeGen()
     {
-      std::chrono::system_clock::duration tp = std::chrono::system_clock::now().time_since_epoch();
-      auto tenms =  std::chrono::duration_cast<std::chrono::milliseconds>(tp).count()/10;
-      return tenms;
+      std::chrono::steady_clock::duration tp =  std::chrono::steady_clock::now() - lastTime;
+      auto inter =  std::chrono::duration_cast<std::chrono::milliseconds>(tp).count();
+      return (inter + startTimestamp)/10;
     }
