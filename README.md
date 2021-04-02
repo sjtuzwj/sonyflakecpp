@@ -31,7 +31,7 @@ When the object is created, it get absolute time as a base (wall clock) by syste
 Dynamically, it get monotonic clock interval to get accurate time offset, and use base + offset as actaul timestamp.
 ```
 
-      std::chrono::steady_clock::duration tp =  std::chrono::steady_clock::now() - lastTime;
+      std::chrono::steady_clock::duration tp =  std::chrono::steady_clock::now() - startTime;
       auto inter =  std::chrono::duration_cast<std::chrono::milliseconds>(tp).count();
       return (inter + startTimestamp)/10;
 ```
