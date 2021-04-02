@@ -3,13 +3,13 @@
 ## Quick Start
 The project is from a brpc project, so please replace brpc's lock with mutex manually.  
 Sonyflake is a variant of snowflake, it use 10ms as interval to increase lifetime, and set seq to 8 bit. Which means it can generate less ID per second.   
+Sonyflake use lower 2 bytes of private IP to generate ID.   
 +--------------------------------------------------------------------------+   
 | 1 Bit Unused | 39 Bit Timestamp |  16 Bit NodeID  |   8 Bit Sequence ID |   
 +--------------------------------------------------------------------------+   
 
 ## Auto IP 
 IP generator is a singleton, you can get your machine's IP if you know the interface like wlan0/eth0/ens33.  
-sonyflake use lower 2 bytes to generate ID.
 ```
 storage::AddrInfo::getInstance().setInterface("wlan0");
 std::string ip = storage::AddrInfo::getInstance().getPublicIP();
