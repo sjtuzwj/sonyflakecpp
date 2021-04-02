@@ -2,10 +2,10 @@
 
 ## Quick Start
 The project is from a brpc project, so please replace brpc's lock with mutex manually.  
-Sonyflake is a variant of snowflake, it use 10ms as interval to increase lifetime, and set seq to 8 bit. Which means it can generate less ID per second.
-+--------------------------------------------------------------------------+
-| 1 Bit Unused | 39 Bit Timestamp |  16 Bit NodeID  |   8 Bit Sequence ID |
-+--------------------------------------------------------------------------+
+Sonyflake is a variant of snowflake, it use 10ms as interval to increase lifetime, and set seq to 8 bit. Which means it can generate less ID per second.   
++--------------------------------------------------------------------------+   
+| 1 Bit Unused | 39 Bit Timestamp |  16 Bit NodeID  |   8 Bit Sequence ID |   
++--------------------------------------------------------------------------+   
 
 ## Auto IP 
 IP generator is a singleton, you can get your machine's IP if you know the interface like wlan0/eth0/ens33.  
