@@ -33,7 +33,7 @@
         //Use wall clock as init time and mono clock to measure interval
         std::chrono::system_clock::duration tp = std::chrono::system_clock::now().time_since_epoch();
         startTimestamp =  std::chrono::duration_cast<std::chrono::milliseconds>(tp).count() - twepoch;
-        lastTime = std::chrono::steady_clock::now();
+        startTime = std::chrono::steady_clock::now();
         lastTimestamp = timeGen();
     }
     //need concurrency control
@@ -77,7 +77,7 @@
 
     unsigned long long SnowFlake::timeGen()
     {
-      std::chrono::steady_clock::duration tp =  std::chrono::steady_clock::now() - lastTime;
+      std::chrono::steady_clock::duration tp =  std::chrono::steady_clock::now() - startTime;
       auto inter =  std::chrono::duration_cast<std::chrono::milliseconds>(tp).count();
       return (inter + startTimestamp)/10;
     }
