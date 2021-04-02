@@ -26,13 +26,13 @@ ID generator is also a singleton, but you can easily modify it.
     }
 ```
 
-##  clock drift 
-Now, it naively wait until clock is normal.(Or you can throw exception like snowflake)
+##  clock drift
+When the object is created, it get absolute time as a base (wall clock) by system clock.   
+Dynamically, it get monotonic clock interval to get accurate time offset, and use base + offset as actaul timestamp.
 ```
 
-        //clock backward, wait until recover
-        if (timestamp < lastTimestamp) 
-        {
-            timestamp = tilNextMillis();
-        }
-        ```
+      std::chrono::steady_clock::duration tp =  std::chrono::steady_clock::now() - lastTime;
+      auto inter =  std::chrono::duration_cast<std::chrono::milliseconds>(tp).count();
+      return (inter + startTimestamp)/10;
+```
+ 
