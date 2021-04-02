@@ -30,7 +30,7 @@ private:
     const int machineIdShift = sequenceBits;
     const int timestampLeftShift = sequenceBits + machineIdBits;
     const unsigned long long sequenceMask = (-1ll) ^ ((-1ll) << sequenceBits);
-    std::chrono::time_point<std::chrono::steady_clock>  lastTime;
+    std::chrono::time_point<std::chrono::steady_clock>  startTime;
     unsigned long long startTimestamp;    
     unsigned long long lastTimestamp;
 
