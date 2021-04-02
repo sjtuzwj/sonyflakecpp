@@ -16,6 +16,7 @@
 +--------------------------------------------------------------------------+
  */
 
+
 class SnowFlake
 {
 private:
@@ -23,13 +24,16 @@ private:
     unsigned long long machineId = 0;
     unsigned long long sequence = 0;
     //bias to shade true time, /10 to transfer to sonyflake
-    const unsigned  long long twepoch = 128883497465ull;
+    const unsigned  long long twepoch = 1288834974657ull;
     const int machineIdBits = 16;
     const int sequenceBits = 8;
     const int machineIdShift = sequenceBits;
     const int timestampLeftShift = sequenceBits + machineIdBits;
     const unsigned long long sequenceMask = (-1ll) ^ ((-1ll) << sequenceBits);
-    unsigned long long lastTimestamp = timeGen();
+    std::chrono::time_point<std::chrono::steady_clock>  lastTime;
+    unsigned long long startTimestamp;    
+    unsigned long long lastTimestamp;
+
     SnowFlake();
     //wait until nex 10 ms
     unsigned long long tilNextMillis();
